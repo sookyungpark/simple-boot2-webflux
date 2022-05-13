@@ -27,12 +27,11 @@ class ExternalAuthClient(@Qualifier("authClient") private val authClient: WebCli
                 .method(HttpMethod.POST)
                 .uri("/api/auth")
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(BodyInserters.fromObject(body))
+                .bodyValue(body)
                 .attribute(ATTR_RESOURCE_ID_KEY, "authorizeUser")
-                .exchange()
-                .flatMap { response ->
+                .exchangeToMono { response ->
                     if (response.statusCode().isError) {
-                        return@flatMap ResponseSupport.drain(response) {
+                        return@exchangeToMono ResponseSupport.drain(response) {
                             throw UnauthorizedException("user auth failed. ${response.statusCode().reasonPhrase}")
                         }
                     }

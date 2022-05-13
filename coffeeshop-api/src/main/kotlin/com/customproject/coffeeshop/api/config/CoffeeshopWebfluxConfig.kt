@@ -15,14 +15,12 @@ import io.micrometer.core.instrument.binder.jvm.ClassLoaderMetrics
 import io.micrometer.core.instrument.binder.jvm.JvmGcMetrics
 import io.micrometer.core.instrument.binder.jvm.JvmMemoryMetrics
 import io.micrometer.core.instrument.binder.jvm.JvmThreadMetrics
-import io.micrometer.core.instrument.binder.system.FileDescriptorMetrics
 import io.micrometer.core.instrument.binder.system.ProcessorMetrics
-import io.micrometer.core.instrument.binder.system.UptimeMetrics
 import io.micrometer.prometheus.PrometheusMeterRegistry
 import io.netty.channel.ChannelOption
 import io.netty.handler.timeout.ReadTimeoutHandler
 import io.netty.handler.timeout.WriteTimeoutHandler
-import org.springframework.boot.autoconfigure.web.ResourceProperties
+import org.springframework.boot.autoconfigure.web.WebProperties
 import org.springframework.boot.web.reactive.error.DefaultErrorAttributes
 import org.springframework.boot.web.reactive.error.ErrorAttributes
 import org.springframework.context.annotation.Bean
@@ -62,8 +60,8 @@ public class CoffeeshopWebfluxConfig(private val appProperties: ApplicationPrope
     }
 
     @Bean
-    fun resourceProperties(): ResourceProperties {
-        return ResourceProperties()
+    fun resources(): WebProperties.Resources {
+        return WebProperties.Resources()
     }
 
     @Primary
@@ -106,7 +104,7 @@ public class CoffeeshopWebfluxConfig(private val appProperties: ApplicationPrope
                }
 
         return  WebClient.builder()
-                .clientConnector(ReactorClientHttpConnector(HttpClient.from(tcpClient)))
+                .clientConnector(ReactorClientHttpConnector(HttpClient.from(tcpClient))) // TODO: update connector
                 .baseUrl(properties.baseUrl!!)
                 .filter(ExternalRequestLoggingFilter(metricTag, meterRegistry))
                 .build()

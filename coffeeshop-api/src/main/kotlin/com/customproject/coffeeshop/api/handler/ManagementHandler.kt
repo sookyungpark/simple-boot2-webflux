@@ -13,6 +13,6 @@ public class ManagementHandler(private val prometheusMeterRegistry: PrometheusMe
     public fun scrape(request: ServerRequest): Mono<ServerResponse> {
         return ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
-                .syncBody(prometheusMeterRegistry.scrape())
+                .bodyValue(prometheusMeterRegistry.scrape())
     }
 }

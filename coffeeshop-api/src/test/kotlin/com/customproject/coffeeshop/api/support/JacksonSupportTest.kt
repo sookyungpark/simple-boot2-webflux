@@ -12,7 +12,7 @@ import com.customproject.coffeeshop.domain.*
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.runners.MockitoJUnitRunner
+import org.mockito.junit.MockitoJUnitRunner
 
 
 @RunWith(MockitoJUnitRunner::class)
@@ -32,7 +32,7 @@ class JacksonSupportTest {
     fun convertOrder() {
         val orderId = "orderId"
         val menus = listOf(OrderMenu("menuId", 1))
-        val order = Order(orderId, menus)
+        val order = Order(orderId, "userId", OrderStatus.CREATED, menus)
 
         val expectedResult = hashMapOf<String, Any?>().apply {
             put("id", orderId)

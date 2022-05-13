@@ -1,12 +1,9 @@
 package com.customproject.coffeeshop.api.handler
 
-import com.customproject.coffeeshop.api.client.ExternalAuthClient
 import com.customproject.coffeeshop.api.filter.InternalAuthCheckFilter
 import com.customproject.coffeeshop.api.filter.UserAuthCheckFilter
 import com.customproject.coffeeshop.api.handler.internal.InternalOrderHandler
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.mock.mockito.MockBean
-import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration

@@ -23,10 +23,9 @@ class ExternalProfileClient(@Qualifier("profileClient") private val profileClien
                 .uri("/api/profile/$userId")
                 .contentType(MediaType.APPLICATION_JSON)
                 .attribute(CoffeeshopConstants.ATTR_RESOURCE_ID_KEY, "getProfile")
-                .exchange()
-                .flatMap { response ->
+                .exchangeToMono { response ->
                     if (response.statusCode().isError) {
-                        return@flatMap ResponseSupport.drain(response) {
+                        return@exchangeToMono ResponseSupport.drain(response) {
                             throw UnauthorizedException("get profile failed. ${response.statusCode().reasonPhrase}")
                         }
                     }

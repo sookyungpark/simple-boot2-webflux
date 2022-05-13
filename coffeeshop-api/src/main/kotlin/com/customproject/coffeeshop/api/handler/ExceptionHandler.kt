@@ -6,8 +6,9 @@ import com.customproject.coffeeshop.api.support.CoffeeshopConstants.Companion.HE
 import com.customproject.coffeeshop.api.support.RequestLoggingSupport
 import com.customproject.coffeeshop.domain.ErrorResponse
 import mu.KotlinLogging
-import org.springframework.boot.autoconfigure.web.ResourceProperties
+import org.springframework.boot.autoconfigure.web.WebProperties.Resources
 import org.springframework.boot.autoconfigure.web.reactive.error.AbstractErrorWebExceptionHandler
+import org.springframework.boot.web.error.ErrorAttributeOptions
 import org.springframework.boot.web.reactive.error.ErrorAttributes
 import org.springframework.context.ApplicationContext
 import org.springframework.core.annotation.Order
@@ -27,10 +28,10 @@ import reactor.core.publisher.Mono
 @Component
 public class ExceptionHandler(serverCodecConfigurer: ServerCodecConfigurer,
                               errorAttributes: ErrorAttributes,
-                              resourceProperties: ResourceProperties,
+                              resources: Resources,
                               applicationContext: ApplicationContext,
                               private val requestLoggingSupport: RequestLoggingSupport)
-        : AbstractErrorWebExceptionHandler(errorAttributes, resourceProperties, applicationContext) {
+    : AbstractErrorWebExceptionHandler(errorAttributes, resources, applicationContext) {
 
     companion object {
         private const val ATTRIBUTE_MESSAGE_KEY = "message"
@@ -53,40 +54,40 @@ public class ExceptionHandler(serverCodecConfigurer: ServerCodecConfigurer,
         return RouterFunctions.route(RequestPredicates.all(), HandlerFunction<ServerResponse>(this::renderErrorResponse))
     }
 
-    protected fun renderErrorResponse(request: ServerRequest) : Mono<ServerResponse> {
+    protected fun renderErrorResponse(request: ServerRequest): Mono<ServerResponse> {
         val t = getError(request)
         log.error(t) { "exception" }
 
         if (t is CoffeeshopException) {
             return ServerResponse.status(t.webStatus)
-                .header(HEADER_COFFEESHOP_ERROR_KEY, t.errorStatus)
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .body(
-                        Mono.just(ErrorResponse(t.webStatus.value(), t.errorStatus)),
-                        ErrorResponse::class.java
-                )
+                    .header(HEADER_COFFEESHOP_ERROR_KEY, t.errorStatus)
+                    .contentType(MediaType.APPLICATION_JSON_UTF8)
+                    .body(
+                            Mono.just(ErrorResponse(t.webStatus.value(), t.errorStatus)),
+                            ErrorResponse::class.java
+                    )
         }
 
         val headers = hashMapOf<String, String>()
 
-        if (isNoMatchingHandler(request)) {
+        if (isNoMatchingHandler(request, ErrorAttributeOptions.defaults())) {
             headers[HEADER_COFFEESHOP_ERROR_KEY] = NO_MATCHING_HANDLER_CODE
             requestLoggingSupport.error(request, NOT_FOUND_RESOURCE_ID, null, HandlerNotFoundException("handler not found"))
         }
 
         return ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
-            .headers {
-                it.setAll(headers)
-            }
-            .contentType(MediaType.APPLICATION_JSON_UTF8)
-            .body(
-                    Mono.just(ErrorResponse(INTERNAL_ERROR_STATUS, INTERNAL_ERROR_MESSAGE)),
-                    ErrorResponse::class.java
-            )
+                .headers {
+                    it.setAll(headers)
+                }
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(
+                        Mono.just(ErrorResponse(INTERNAL_ERROR_STATUS, INTERNAL_ERROR_MESSAGE)),
+                        ErrorResponse::class.java
+                )
     }
 
-    private fun isNoMatchingHandler(request: ServerRequest): Boolean {
-        getErrorAttributes(request, false)[ATTRIBUTE_MESSAGE_KEY]?.let {
+    private fun isNoMatchingHandler(request: ServerRequest, errorAttributeOptions: ErrorAttributeOptions): Boolean {
+        getErrorAttributes(request, errorAttributeOptions)[ATTRIBUTE_MESSAGE_KEY]?.let {
             if (it == NO_MATCHING_HANDLER_MESSAGE) {
                 return true
             }

@@ -124,7 +124,9 @@ public class ExternalRequestLoggingFilter(private val serviceTag: String, privat
             ).let {
                 requestLogger.info { it.toString(DEFAULT_SEPARATOR) }
             }
-        } catch (e: Exception) { }
+        } catch (e: Exception) {
+            log.warn(e) { "cannot build failed request info" }
+        }
     }
 
     private fun recordSuccessRequestMetric(request: ClientRequest, signal: Signal<ClientResponse?>?) {
@@ -170,12 +172,12 @@ public class ExternalRequestLoggingFilter(private val serviceTag: String, privat
         return null
     }
 
-    private fun getParams(request: ClientRequest): Map<String, String?>? {
-        return emptyMap()
+    private fun getParams(request: ClientRequest): Map<String, String?> {
+        return emptyMap() // dummy
     }
 
-    private fun getHeaders(request: ClientRequest): Map<String, String?>? {
-        return emptyMap()
+    private fun getHeaders(request: ClientRequest): Map<String, String?> {
+        return emptyMap() // dummy
     }
 
     private fun getResourceId(request: ClientRequest): String {
