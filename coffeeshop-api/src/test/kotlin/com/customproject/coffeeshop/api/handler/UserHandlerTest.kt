@@ -5,6 +5,7 @@ import com.customproject.coffeeshop.api.support.CoffeeshopConstants
 import com.customproject.coffeeshop.domain.response.UserProfileGetResponse
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.given
+import org.jetbrains.kotlin.com.google.common.net.HttpHeaders
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
@@ -22,9 +23,6 @@ class UserHandlerTest: BaseHandlerTest() {
     @Autowired
     private val userHandler: UserHandler? = null
 
-    @Autowired
-    private val userAuthCheckFilter: UserAuthCheckFilter? = null
-
     @Test
     fun getProfile() {
         // given
@@ -40,11 +38,9 @@ class UserHandlerTest: BaseHandlerTest() {
         // mock
         given(this.userHandler!!.getProfile(any())).willReturn(response)
 
-        given(this.userAuthCheckFilter!!.filter(any(), any())).willReturn(response)
-    //    given(this.userAuthCheckFilter.order).willReturn(FilterOrder.USER_AUTH_CHECK_FILTER.value)
-
         // validate
         webTestClient!!.get().uri("/api/users/profile")
+                .header(HttpHeaders.ACCEPT, "application/json")
                 .header(CoffeeshopConstants.HEADER_COFFEESHOP_USER_TOKEN, "<user-token>")
                 .exchange()
                 .expectStatus().isOk

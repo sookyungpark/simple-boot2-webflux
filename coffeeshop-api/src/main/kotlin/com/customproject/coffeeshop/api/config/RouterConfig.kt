@@ -35,22 +35,18 @@ public class RouterConfig(private val warmupHandler: WarmupHandler,
     @Bean
     @Order(100)
     fun commonRouter() = router {
-        (accept(MediaType.APPLICATION_JSON) and "/warmup").nest {
-        GET("", warmupHandler::warmup)
-        }
-        ("/management").nest {
-            GET("/prometheus", managementHandler::scrape)
-        }
+        GET("/warmup", warmupHandler::warmup)
+        GET("/management/prometheus", managementHandler::scrape)
     }
 
     @Bean
     @Order(1)
     fun apiRouter() = router {
-        (accept(MediaType.APPLICATION_JSON) and "/api").nest {
+        ("/api").nest {
             ("/menus").nest {
-                GET("/", menuHandler::list)
-                GET("/{id}", menuHandler::get)
-                POST("/search", menuHandler::search)
+                GET(accept(MediaType.APPLICATION_JSON) and "", menuHandler::list)
+                GET(accept(MediaType.APPLICATION_JSON) and "/{id}", menuHandler::get)
+                POST(contentType(MediaType.APPLICATION_JSON) and "/search", menuHandler::search)
             }
         }
     }
@@ -58,31 +54,33 @@ public class RouterConfig(private val warmupHandler: WarmupHandler,
     @Bean
     @Order(5)
     fun apiWithAuthRouter() = router {
-        (accept(MediaType.APPLICATION_JSON) and "/api").nest {
+        ("/api").nest {
             ("/orders").nest {
-                POST("/", orderHandler::create)
-                PUT("/{id}", orderHandler::update)
+                POST(contentType(MediaType.APPLICATION_JSON) and "", orderHandler::create)
+                PUT(contentType(MediaType.APPLICATION_JSON) and "/{id}", orderHandler::update)
             }
             ("/users").nest {
-                GET("/profile", userHandler::getProfile)
+                GET(accept(MediaType.APPLICATION_JSON) and "/profile", userHandler::getProfile)
             }
         }
     }
-    .filter(userAuthCheckFilter)
+    // uncomment on use
+    //.filter(userAuthCheckFilter)
 
     @Bean
     @Order(10)
     fun internalApiRouter() = router {
-        (accept(MediaType.APPLICATION_JSON) and "/api/internal").nest {
+        ("/api/internal").nest {
             ("/orders").nest {
-                GET("/", internalOrderHandler::list)
-                GET("/{id}", internalOrderHandler::get)
+                GET(accept(MediaType.APPLICATION_JSON) and "", internalOrderHandler::list)
+                GET(accept(MediaType.APPLICATION_JSON) and "/{id}", internalOrderHandler::get)
             }
             ("/users").nest {
-                GET("/", internalUserHandler::list)
+                GET(accept(MediaType.APPLICATION_JSON) and "", internalUserHandler::list)
             }
 
         }
     }
-    .filter(internalAuthCheckFilter)
+    // uncomment on use
+    //.filter(internalAuthCheckFilter)
 }

@@ -96,7 +96,7 @@ asciidoctor {
 }
 
 jar {
-    //dependsOn asciidoctor
+    dependsOn asciidoctor
     archiveName "service-${project.name}.jar"
 }
 
@@ -104,7 +104,7 @@ eclipseJdt.onlyIf { false }
 cleanEclipseJdt.onlyIf { false }
 
 bootRun {
-    //dependsOn asciidoctor
+    dependsOn asciidoctor
     if (System.properties["spring.profiles.active"] == null) {
         systemProperty "spring.profiles.active", "LOCAL"
     } else {

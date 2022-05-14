@@ -1,5 +1,6 @@
 package com.customproject.coffeeshop.api.handler
 
+import com.customproject.coffeeshop.api.client.ExternalAuthClient
 import com.customproject.coffeeshop.api.filter.InternalAuthCheckFilter
 import com.customproject.coffeeshop.api.filter.UserAuthCheckFilter
 import com.customproject.coffeeshop.api.handler.internal.InternalOrderHandler

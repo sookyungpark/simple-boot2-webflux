@@ -35,8 +35,10 @@ class JacksonSupportTest {
         val order = Order(orderId, "userId", OrderStatus.CREATED, menus)
 
         val expectedResult = hashMapOf<String, Any?>().apply {
-            put("id", orderId)
-            put("menus", menus)
+            put("id", order.id)
+            put("menus", order.menus)
+            put("userId", order.userId)
+            put("status", order.status)
         }
 
         // when

@@ -6,6 +6,7 @@ import com.customproject.coffeeshop.domain.response.MenuGetResponse
 import com.customproject.coffeeshop.domain.response.MenuListResponse
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.given
+import org.apache.http.HttpHeaders
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
@@ -38,7 +39,9 @@ class MenuHandlerTest: BaseHandlerTest() {
         given(this.menuHandler!!.list(any())).willReturn(response)
 
         // validate
-        webTestClient!!.get().uri("/api/menus")
+        webTestClient!!.get()
+                .uri("/api/menus")
+                .header(HttpHeaders.ACCEPT, "application/json")
                 .exchange()
                 .expectStatus().isOk
                 .expectBody().json(objectMapper.writeValueAsString(expectedBody))
@@ -79,6 +82,9 @@ class MenuHandlerTest: BaseHandlerTest() {
 
         // validate
         webTestClient!!.get().uri("/api/menus/$menuId")
+                .headers { headers ->
+                    headers.set(HttpHeaders.ACCEPT, "application/json")
+                }
                 .exchange()
                 .expectStatus().isOk
                 .expectBody().json(objectMapper.writeValueAsString(expectedBody))

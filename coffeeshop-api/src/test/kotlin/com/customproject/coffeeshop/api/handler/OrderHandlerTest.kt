@@ -1,10 +1,12 @@
 package com.customproject.coffeeshop.api.handler
 
+import com.customproject.coffeeshop.api.filter.UserAuthCheckFilter
 import com.customproject.coffeeshop.api.support.CoffeeshopConstants
 import com.customproject.coffeeshop.domain.request.CreateOrderMenuRequest
 import com.customproject.coffeeshop.domain.request.CreateOrderRequest
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.given
+import org.apache.http.HttpHeaders
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
