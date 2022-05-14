@@ -1,8 +1,8 @@
 package com.customproject.coffeeshop.api.repository
 
 import com.customproject.coffeeshop.api.config.property.MenuProperties
-import com.customproject.coffeeshop.api.domain.MenuSearchEsDto
-import com.customproject.coffeeshop.api.domain.MenuSearchQuery
+import com.customproject.coffeeshop.api.dto.MenuSearchEsDto
+import com.customproject.coffeeshop.api.dto.MenuSearchQuery
 import com.customproject.coffeeshop.api.exception.UnexpectedMenuException
 import com.customproject.coffeeshop.domain.*
 import com.google.common.collect.ImmutableMap
@@ -47,7 +47,8 @@ class MockMenuSearchRepository : MenuSearchRepository {
 }
 
 // TODO : add curator option on resource
-@Repository
+//uncomment on use
+// @Repository
 @Qualifier(value = "EsMenuSearchRepository")
 class EsMenuSearchRepository(val menuProperties: MenuProperties,
                              val reactiveElasticsearchOperations: ReactiveElasticsearchOperations,

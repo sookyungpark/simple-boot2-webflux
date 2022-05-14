@@ -3,9 +3,9 @@ package com.customproject.coffeeshop.api.handler
 import com.customproject.coffeeshop.api.filter.UserAuthCheckFilter
 import com.customproject.coffeeshop.api.support.CoffeeshopConstants
 import com.customproject.coffeeshop.domain.response.UserProfileGetResponse
-import com.nhaarman.mockito_kotlin.any
-import com.nhaarman.mockito_kotlin.given
-import org.junit.Test
+import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.given
+import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
 import org.springframework.restdocs.headers.HeaderDocumentation

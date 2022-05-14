@@ -13,8 +13,8 @@ import org.springframework.data.elasticsearch.client.reactive.ReactiveRestClient
 import org.springframework.data.elasticsearch.core.ReactiveElasticsearchOperations
 import org.springframework.data.elasticsearch.core.ReactiveElasticsearchTemplate
 
-
-@Configuration
+// uncomment on use
+// @Configuration
 class EsConfig(private val esProperties: EsProperties) {
 
     @Bean

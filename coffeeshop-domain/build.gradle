@@ -9,13 +9,13 @@ apply plugin: 'kotlin-spring'
 compileKotlin {
     kotlinOptions {
         freeCompilerArgs = ["-Xjsr305=strict"]
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
 }
 compileTestKotlin {
     kotlinOptions {
         freeCompilerArgs = ["-Xjsr305=strict"]
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
 }
 
@@ -26,8 +26,8 @@ repositories {
 
 dependencies {
     // kotlin
-    implementation(group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: kotlinVersion)
-    implementation(group: 'org.jetbrains.kotlin', name: 'kotlin-gradle-plugin', version: kotlinVersion)
+    //implementation(group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: kotlinVersion)
+    //implementation(group: 'org.jetbrains.kotlin', name: 'kotlin-gradle-plugin', version: kotlinVersion)
 
     // etc
     implementation(group: 'com.fasterxml.jackson.module', name: 'jackson-module-kotlin', version: '2.9.+')

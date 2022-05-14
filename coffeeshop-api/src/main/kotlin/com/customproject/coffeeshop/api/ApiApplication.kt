@@ -2,6 +2,7 @@ package com.customproject.coffeeshop.api
 
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.autoconfigure.data.elasticsearch.ReactiveElasticsearchRestClientAutoConfiguration
 import org.springframework.boot.autoconfigure.elasticsearch.ElasticsearchRestClientAutoConfiguration
 import org.springframework.boot.autoconfigure.gson.GsonAutoConfiguration
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
@@ -10,10 +11,11 @@ import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConf
 
 @SpringBootApplication(
         exclude = [DataSourceAutoConfiguration::class,
-                   ElasticsearchRestClientAutoConfiguration::class,
-                   ErrorMvcAutoConfiguration::class,
-                   GsonAutoConfiguration::class,
-                   WebMvcAutoConfiguration::class]
+            ElasticsearchRestClientAutoConfiguration::class,
+            ReactiveElasticsearchRestClientAutoConfiguration::class,
+            ErrorMvcAutoConfiguration::class,
+            GsonAutoConfiguration::class,
+            WebMvcAutoConfiguration::class]
 )
 class ApiApplication
 

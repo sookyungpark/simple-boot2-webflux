@@ -1,5 +1,7 @@
 package com.customproject.coffeeshop.api.config
 
+import com.customproject.coffeeshop.api.filter.InternalAuthCheckFilter
+import com.customproject.coffeeshop.api.filter.UserAuthCheckFilter
 import com.customproject.coffeeshop.api.handler.*
 import com.customproject.coffeeshop.api.handler.internal.InternalOrderHandler
 import com.customproject.coffeeshop.api.handler.internal.InternalUserHandler
@@ -18,7 +20,9 @@ public class RouterConfig(private val warmupHandler: WarmupHandler,
                           private val userHandler: UserHandler,
                           private val menuHandler: MenuHandler,
                           private val internalUserHandler: InternalUserHandler,
-                          private val internalOrderHandler: InternalOrderHandler) {
+                          private val internalOrderHandler: InternalOrderHandler,
+                          private val userAuthCheckFilter: UserAuthCheckFilter,
+                          private val internalAuthCheckFilter: InternalAuthCheckFilter) {
 
     @Bean
     @Order(100)
@@ -32,7 +36,7 @@ public class RouterConfig(private val warmupHandler: WarmupHandler,
     @Order(100)
     fun commonRouter() = router {
         (accept(MediaType.APPLICATION_JSON) and "/warmup").nest {
-            GET("/", warmupHandler::warmup)
+        GET("", warmupHandler::warmup)
         }
         ("/management").nest {
             GET("/prometheus", managementHandler::scrape)
@@ -64,7 +68,7 @@ public class RouterConfig(private val warmupHandler: WarmupHandler,
             }
         }
     }
-    //.filter(userAuthCheckFilter)
+    .filter(userAuthCheckFilter)
 
     @Bean
     @Order(10)
@@ -80,5 +84,5 @@ public class RouterConfig(private val warmupHandler: WarmupHandler,
 
         }
     }
-    //.filter(internalAuthCheckFilter)
+    .filter(internalAuthCheckFilter)
 }

@@ -8,14 +8,13 @@ import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.afterburner.AfterburnerModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockitokotlin2.any
 import org.junit.Assert
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner
-import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -52,18 +51,12 @@ class ExternalAuthClientTest {
             expireTime = 1000L,
             signedIn = true)
 
-        val authResponse = ClientResponse
-                .create(HttpStatus.OK)
-                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .body(objectMapper.writeValueAsString(expectedResult))
-                .build()
-
         Mockito.`when`(authClient.method(HttpMethod.POST)).thenReturn(authClientBody)
         Mockito.`when`(authClientBody.uri(ArgumentMatchers.anyString())).thenReturn(authClientBody)
         Mockito.`when`(authClientBody.contentType(any())).thenReturn(authClientBody)
-        Mockito.`when`(authClientBody.body(any())).thenReturn(authClientBody)
+        Mockito.`when`(authClientBody.bodyValue(any())).thenReturn(authClientBody)
         Mockito.`when`(authClientBody.attribute(any(), any())).thenReturn(authClientBody)
-        Mockito.`when`(authClientBody.exchange()).thenReturn(Mono.just(authResponse))
+        Mockito.`when`(authClientBody.exchangeToMono<ExternalAuthUserResponse>(any())).thenReturn(Mono.just(expectedResult))
 
         // when
         val actualResult = authServiceExternal.authorize(userToken = userToken).block()

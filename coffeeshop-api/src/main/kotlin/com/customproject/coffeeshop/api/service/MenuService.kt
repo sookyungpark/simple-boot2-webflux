@@ -1,9 +1,8 @@
 package com.customproject.coffeeshop.api.service
 
-import com.customproject.coffeeshop.api.domain.MenuSearchQuery
+import com.customproject.coffeeshop.api.dto.MenuSearchQuery
 import com.customproject.coffeeshop.api.repository.MenuRepository
 import com.customproject.coffeeshop.api.repository.MenuSearchRepository
-import com.customproject.coffeeshop.domain.Menu
 import com.customproject.coffeeshop.domain.response.MenuGetResponse
 import com.customproject.coffeeshop.domain.response.MenuListResponse
 import com.customproject.coffeeshop.domain.response.MenuSearchResponse
@@ -15,7 +14,7 @@ import reactor.core.publisher.Mono
 
 
 @Service
-class MenuService(private val menuRepository: MenuRepository,
+class MenuService(@Qualifier("MockMenuRepository") private val menuRepository: MenuRepository,
                   @Qualifier("MockMenuSearchRepository") private val menuSearchRepository: MenuSearchRepository) {
     companion object {
         private val log = KotlinLogging.logger {}

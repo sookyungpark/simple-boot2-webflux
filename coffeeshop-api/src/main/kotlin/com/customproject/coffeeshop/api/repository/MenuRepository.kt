@@ -13,6 +13,7 @@ interface MenuRepository {
     fun get(id: String, useCache: Boolean = true): Mono<Menu>
 }
 
+// uncomment if necessary
 @Repository
 @Qualifier(value = "MockMenuRepository")
 class MockMenuRepository : MenuRepository {

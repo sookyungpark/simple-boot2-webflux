@@ -1,4 +1,4 @@
-package com.customproject.coffeeshop.api.domain
+package com.customproject.coffeeshop.api.dto
 
 import com.customproject.coffeeshop.domain.Cost
 import com.customproject.coffeeshop.domain.MenuCategory

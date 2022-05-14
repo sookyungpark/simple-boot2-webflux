@@ -1,6 +1,6 @@
 package com.customproject.coffeeshop.api.handler
 
-import com.customproject.coffeeshop.api.domain.MenuSearchQuery
+import com.customproject.coffeeshop.api.dto.MenuSearchQuery
 import com.customproject.coffeeshop.api.exception.UnexpectedException
 import com.customproject.coffeeshop.api.service.MenuService
 import com.customproject.coffeeshop.api.support.RequestLoggingSupport

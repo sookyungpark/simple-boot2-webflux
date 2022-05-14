@@ -10,7 +10,7 @@ import com.fasterxml.jackson.module.afterburner.AfterburnerModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.customproject.coffeeshop.domain.*
 import org.junit.Assert
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 

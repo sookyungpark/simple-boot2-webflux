@@ -1,6 +1,12 @@
 plugins {
     id "com.moowork.node" version "0.13"
-    id "org.asciidoctor.convert" version "1.5.3"
+    id "org.asciidoctor.jvm.convert" version "3.3.2"
+}
+
+repositories {
+    mavenCentral()
+    maven { url "https://plugins.gradle.org/m2/" }
+    maven { url "https://repo.maven.apache.org/maven2" }
 }
 
 compileKotlin {
@@ -48,13 +54,15 @@ dependencies {
 
     implementation(group: 'org.jolokia', name: 'jolokia-core', version: '1.6.0')
 
-    implementation('org.springframework.restdocs:spring-restdocs-restassured')
+
     implementation("org.springframework.restdocs:spring-restdocs-webtestclient:2.0.6.RELEASE")
-    asciidoctor("org.springframework.restdocs:spring-restdocs-asciidoctor:2.0.6.RELEASE")
+    implementation 'org.asciidoctor:asciidoctorj:2.4.1'
+    //asciidoctor("org.springframework.restdocs:spring-restdocs-asciidoctor:2.0.6.RELEASE")
 
     testImplementation('junit:junit:4.13.2')
-    testImplementation('io.rest-assured:rest-assured:3.0.2')
     testImplementation('org.springframework.restdocs:spring-restdocs-restassured')
+    testImplementation('io.rest-assured:json-path:4.0.0')
+    testImplementation('io.rest-assured:xml-path:4.0.0')
 
     testImplementation('org.springframework.boot:spring-boot-starter-test:2.6.7')
     testImplementation('com.squareup.okhttp3:okhttp:4.9.3')
@@ -66,6 +74,7 @@ dependencies {
 }
 
 test {
+    useJUnitPlatform()
     outputs.dir snippetsDir
 }
 
@@ -87,7 +96,7 @@ asciidoctor {
 }
 
 jar {
-    dependsOn asciidoctor
+    //dependsOn asciidoctor
     archiveName "service-${project.name}.jar"
 }
 
@@ -95,7 +104,7 @@ eclipseJdt.onlyIf { false }
 cleanEclipseJdt.onlyIf { false }
 
 bootRun {
-    dependsOn asciidoctor
+    //dependsOn asciidoctor
     if (System.properties["spring.profiles.active"] == null) {
         systemProperty "spring.profiles.active", "LOCAL"
     } else {

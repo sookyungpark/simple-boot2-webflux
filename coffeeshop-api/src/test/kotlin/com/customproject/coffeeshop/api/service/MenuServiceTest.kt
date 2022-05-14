@@ -5,7 +5,7 @@ import com.customproject.coffeeshop.api.repository.MenuRepository
 import com.customproject.coffeeshop.api.repository.MenuSearchRepository
 import com.customproject.coffeeshop.domain.response.MenuListResponse
 import org.junit.Assert
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner

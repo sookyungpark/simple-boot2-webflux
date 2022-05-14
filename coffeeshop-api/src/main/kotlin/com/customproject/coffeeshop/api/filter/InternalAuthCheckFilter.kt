@@ -17,7 +17,7 @@ class InternalAuthCheckFilter : HandlerFilterFunction<ServerResponse, ServerResp
     }
 
     override fun filter(request: ServerRequest, next: HandlerFunction<ServerResponse>): Mono<ServerResponse> {
-        // TODO
+        // implement on use
         return next.handle(request)
     }
 }

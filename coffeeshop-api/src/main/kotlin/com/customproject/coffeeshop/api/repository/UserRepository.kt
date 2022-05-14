@@ -36,21 +36,22 @@ class MockUserRepository : UserRepository {
     }
 }
 
-@Repository
-@Qualifier(value = "ReactiveJpaUserRepository")
-class ReactiveJpaUserRepository(private val jpaUserRepository: JpaUserRepository) : UserRepository {
-
-    override fun list(page: Int, size: Int): Flux<String> {
-        return Flux.fromIterable(jpaUserRepository.findAll(PageRequest.of(page, size)))
-                .map { it.id }
-                .subscribeOn(Schedulers.boundedElastic())
-    }
-
-    override fun get(id: String): Mono<User> {
-        return Mono.fromCallable { jpaUserRepository.findById(id).orElseThrow { NotFoundException("user not found") } }
-                .map { User(id = it.id, name = it.name, tier = it.tier) }
-    }
-}
-
-@Transactional
-interface JpaUserRepository : JpaRepository<UserEntity, String>
+// uncomment on use
+// @Repository
+//@Qualifier(value = "ReactiveJpaUserRepository")
+//class ReactiveJpaUserRepository(private val jpaUserRepository: JpaUserRepository) : UserRepository {
+//
+//    override fun list(page: Int, size: Int): Flux<String> {
+//        return Flux.fromIterable(jpaUserRepository.findAll(PageRequest.of(page, size)))
+//                .map { it.id }
+//                .subscribeOn(Schedulers.boundedElastic())
+//    }
+//
+//    override fun get(id: String): Mono<User> {
+//        return Mono.fromCallable { jpaUserRepository.findById(id).orElseThrow { NotFoundException("user not found") } }
+//                .map { User(id = it.id, name = it.name, tier = it.tier) }
+//    }
+//}
+//
+//@Transactional
+//interface JpaUserRepository : JpaRepository<UserEntity, String>

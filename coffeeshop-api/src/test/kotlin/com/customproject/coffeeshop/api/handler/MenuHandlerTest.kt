@@ -4,9 +4,9 @@ import com.customproject.coffeeshop.domain.Cost
 import com.customproject.coffeeshop.domain.Currency
 import com.customproject.coffeeshop.domain.response.MenuGetResponse
 import com.customproject.coffeeshop.domain.response.MenuListResponse
-import com.nhaarman.mockito_kotlin.any
-import com.nhaarman.mockito_kotlin.given
-import org.junit.Test
+import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.given
+import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
 import org.springframework.restdocs.operation.preprocess.Preprocessors
